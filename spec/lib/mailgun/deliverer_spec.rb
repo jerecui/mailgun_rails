@@ -1,4 +1,4 @@
-require 'spec_helper'
+require_relative '../../spec_helper'
 require 'mailgun/deliverer'
 require 'mailgun/client'
 require 'json'
@@ -78,10 +78,6 @@ describe Mailgun::Deliverer do
                       bcc: ['bcc@email.com'],
                       'h:Reply-To' => 'Reply User <replyto@email.com>' }
       check_mailgun_message msg, expectation
-    end
-
-    it 'fail' do
-      expect(true).to eq false
     end
 
     it 'should include attachment' do
