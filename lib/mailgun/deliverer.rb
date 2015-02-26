@@ -46,8 +46,8 @@ module Mailgun
        text: extract_text(rails_message)
       }
 
-      mailgun_message.merge!({cc: rails_message[:cc].formatted}) if rails_message.has_key? :cc
-      mailgun_message.merge!({bcc: rails_message[:bcc].formatted}) if rails_message.has_key? :bcc
+      mailgun_message.merge!({cc: rails_message[:cc].formatted}) unless rails_message.cc.nil?
+      mailgun_message.merge!({bcc: rails_message[:bcc].formatted}) unless rails_message.bcc.nil?
       return mailgun_message if rails_message.attachments.empty?
 
       # RestClient requires attachments to be in file format, use a temp directory and the decoded attachment
