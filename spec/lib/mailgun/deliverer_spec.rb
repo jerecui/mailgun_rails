@@ -56,6 +56,33 @@ describe Mailgun::Deliverer do
       check_mailgun_message msg, expectation
     end
 
+    it 'should include cc name if there is cc field' do
+      msg = Mail::Message.new(to: 'to@email.com',
+                              from: 'from@email.com',
+                              cc: 'cc@email.com',
+                              reply_to: 'Reply User <replyto@email.com>')
+      expectation = { to: ['to@email.com'],
+                      from: ['from@email.com'],
+                      cc: ['cc@email.com'],
+                      'h:Reply-To' => 'Reply User <replyto@email.com>' }
+      check_mailgun_message msg, expectation
+    end
+
+    it 'should include bcc name if there is bcc field' do
+      msg = Mail::Message.new(to: 'to@email.com',
+                              from: 'from@email.com',
+                              bcc: 'bcc@email.com',
+                              reply_to: 'Reply User <replyto@email.com>')
+      expectation = { to: ['to@email.com'],
+                      from: ['from@email.com'],
+                      bcc: ['bcc@email.com'],
+                      'h:Reply-To' => 'Reply User <replyto@email.com>' }
+      check_mailgun_message msg, expectation
+    end
+
+    it 'fail' do
+      expect(true).to eq false
+    end
 
     it 'should include attachment' do
       rails_message = rails_message_with_attachment
